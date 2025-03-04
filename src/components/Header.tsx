@@ -56,12 +56,32 @@ export const Header = () => {
               </li>
               <li>
                 <Link 
-                  to="/calculator"
-                  className="ml-4 px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 
+                  to="/login"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 
                     transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 
                     flex items-center space-x-2"
                 >
-                  <span>Get Started</span>
+                  <span>Login</span>
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    className="h-4 w-4" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/signup"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 
+                    transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 
+                    flex items-center space-x-2"
+                >
+                  <span>Sign Up</span>
                   <svg 
                     xmlns="http://www.w3.org/2000/svg" 
                     className="h-4 w-4" 
