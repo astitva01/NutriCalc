@@ -3,10 +3,10 @@ export interface UserData {
   height: number;
   age: number;
   gender: 'male' | 'female';
-  bodyFat: number;
+  bodyFat?: number;
   activityLevel: 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active';
   fitnessGoal: 'fat_loss' | 'muscle_gain' | 'maintain' | 'bulk' | 'cut';
-  targetBodyFat: number;
+  targetBodyFat?: number;
   fatLossRate: number;
 }
 

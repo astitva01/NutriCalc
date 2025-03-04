@@ -18,14 +18,20 @@ const FAT_CALORIES_PER_GRAM = 9;
  * Calculate maintenance calories using the Mifflin-St Jeor Equation
  */
 export const calculateMaintenance = (userData: UserData): number => {
-  const { weight, height, age, gender, activityLevel } = userData;
+  const { weight, height, age, gender, activityLevel, bodyFat } = userData;
   
-  // Base BMR calculation using Mifflin-St Jeor Equation
   let bmr;
-  if (gender === 'male') {
-    bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+  if (bodyFat && bodyFat > 0) {
+    // Katch-McArdle formula using body fat percentage
+    const leanBodyMass = weight * (1 - bodyFat / 100);
+    bmr = 370 + 21.6 * leanBodyMass;
   } else {
-    bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+    // Original Mifflin-St Jeor Equation
+    if (gender === 'male') {
+      bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+    } else {
+      bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+    }
   }
   
   // Apply activity multiplier
@@ -118,7 +124,9 @@ export const calculateMacros = (userData: UserData, maintenanceCalories: number)
 /**
  * Calculate weight loss timeline
  */
-export const calculateWeightLossTime = (userData: UserData): WeightLossResults => {
+export const calculateWeightLossTime = (userData: UserData): WeightLossResults | null => {
+  if (!userData.bodyFat || !userData.targetBodyFat) return null;
+  
   const { weight, bodyFat, targetBodyFat, fatLossRate } = userData;
   
   // Calculate lean body mass

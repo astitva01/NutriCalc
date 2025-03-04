@@ -75,7 +75,7 @@ export const Results = ({ results, weightLossResults, userData, onRecalculate }:
                 <div className="flex-1 w-full relative">
                   <MacroChart protein={protein.percentage} carbs={carbs.percentage} fat={fat.percentage} showLegend={false}/>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-24 h-24 rounded-full bg-white shadow-sm border border-blue-100 flex items-center justify-center">
+                    <div className="w-20 h-20 rounded-full bg-white shadow-sm border border-blue-100 flex items-center justify-center">
                       <span className="text-xl font-bold text-blue-600">
                         {protein.percentage + carbs.percentage + fat.percentage}%
                       </span>

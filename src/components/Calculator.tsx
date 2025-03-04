@@ -27,15 +27,11 @@ export const Calculator = () => {
   };
 
   const handleCalculate = () => {
-    // Calculate maintenance calories
     const maintenanceCalories = calculateMaintenance(userData);
-    
-    // Calculate macros based on fitness goal
     const macros = calculateMacros(userData, maintenanceCalories);
     
-    // Calculate weight loss timeline if applicable
     let weightLoss = null;
-    if (userData.bodyFat > userData.targetBodyFat) {
+    if (userData.bodyFat && userData.targetBodyFat && userData.bodyFat > userData.targetBodyFat) {
       weightLoss = calculateWeightLossTime(userData);
     }
     
@@ -45,27 +41,35 @@ export const Calculator = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-        <div className="p-6 md:p-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl">
+        <div className="p-6 md:p-10 relative">
+          <div className="absolute top-6 right-6 opacity-20">
+            <svg className="w-16 h-16 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 7h6m-6 3h6m-6 3h6m6-6a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          
+          <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-8">
             Personalized Nutrition Calculator
           </h2>
           
-          {!showResults ? (
-            <UserInputForm 
-              userData={userData} 
-              onInputChange={handleInputChange} 
-              onCalculate={handleCalculate} 
-            />
-          ) : (
-            <Results 
-              results={results} 
-              weightLossResults={weightLossResults}
-              userData={userData}
-              onRecalculate={() => setShowResults(false)}
-            />
-          )}
+          <div className="motion-safe:animate-fade-in">
+            {!showResults ? (
+              <UserInputForm 
+                userData={userData} 
+                onInputChange={handleInputChange} 
+                onCalculate={handleCalculate} 
+              />
+            ) : (
+              <Results 
+                results={results} 
+                weightLossResults={weightLossResults}
+                userData={userData}
+                onRecalculate={() => setShowResults(false)}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 interface BodyFatSelectorProps {
-  value: number;
-  onChange: (value: number) => void;
+  value?: number;
+  onChange: (value?: number) => void;
 }
 
 export const BodyFatSelector = ({ value, onChange }: BodyFatSelectorProps) => {
@@ -16,10 +16,12 @@ export const BodyFatSelector = ({ value, onChange }: BodyFatSelectorProps) => {
     const numVal = parseFloat(val);
     if (!isNaN(numVal) && numVal >= 0 && numVal <= 100) {
       onChange(numVal);
+    } else if (val === '') {
+      onChange(undefined);
     }
   };
 
-  const handlePresetSelect = (preset: number) => {
+  const handlePresetSelect = (preset?: number) => {
     onChange(preset);
     setUseCustom(false);
   };
@@ -27,19 +29,56 @@ export const BodyFatSelector = ({ value, onChange }: BodyFatSelectorProps) => {
   const toggleCustom = () => {
     setUseCustom(!useCustom);
     if (!useCustom) {
-      setCustomValue(value.toString());
+      setCustomValue(value?.toString() || '');
     }
   };
 
   const bodyFatOptions = [
-    { value: 5, label: '5%', imageUrl: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
-    { value: 10, label: '10%', imageUrl: 'https://images.unsplash.com/photo-1549476464-37392f717541?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
-    { value: 15, label: '15%', imageUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
-    { value: 20, label: '20%', imageUrl: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
-    { value: 25, label: '25%', imageUrl: 'https://images.unsplash.com/photo-1581009131179-5b21b443d5df?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
-    { value: 30, label: '30%', imageUrl: 'https://images.unsplash.com/photo-1518310952931-b1de897abd40?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
-    { value: 35, label: '35%', imageUrl: 'https://images.unsplash.com/photo-1549068106-b024baf5082e?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
-    { value: 40, label: '40%', imageUrl: 'https://images.unsplash.com/photo-1552057327-3c9bc5ca72a8?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
+    { 
+      value: undefined, 
+      label: "I don't know", 
+      imageUrl: '/images/body-fat-unknown.png'
+    },
+    { 
+      value: 5, 
+      label: '5%', 
+      imageUrl: '/images/body-fat-5.png'
+    },
+    { 
+      value: 10, 
+      label: '10%', 
+      imageUrl: '/images/body-fat-10.png'
+    },
+    { 
+      value: 15, 
+      label: '15%', 
+      imageUrl: '/images/body-fat-15.png'
+    },
+    { 
+      value: 20, 
+      label: '20%', 
+      imageUrl: '/images/body-fat-20.png'
+    },
+    { 
+      value: 25, 
+      label: '25%', 
+      imageUrl: '/images/body-fat-25.png'
+    },
+    { 
+      value: 30, 
+      label: '30%', 
+      imageUrl: '/images/body-fat-30.png'
+    },
+    { 
+      value: 35, 
+      label: '35%', 
+      imageUrl: '/images/body-fat-35.png'
+    },
+    { 
+      value: 40, 
+      label: '40%', 
+      imageUrl: '/images/body-fat-40.png'
+    },
   ];
 
   return (
@@ -47,7 +86,7 @@ export const BodyFatSelector = ({ value, onChange }: BodyFatSelectorProps) => {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {bodyFatOptions.map((option) => (
           <div
-            key={option.value}
+            key={option.value ?? 'unknown'}
             onClick={() => handlePresetSelect(option.value)}
             className={`group relative cursor-pointer rounded-xl overflow-hidden border-2 transition-all
               transform hover:scale-105 hover:shadow-lg ${

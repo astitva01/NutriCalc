@@ -171,10 +171,10 @@ export const UserInputForm = ({ userData, onInputChange, onCalculate }: UserInpu
           <div className="space-y-8">
             <div className="p-6 border-2 border-gray-100 rounded-xl bg-white">
               <label className="block text-sm font-medium text-gray-700 mb-4">
-                Body Fat Percentage
+                Body Fat Percentage (optional)
               </label>
               <BodyFatSelector
-                value={userData.bodyFat}
+                value={userData.bodyFat ?? undefined}
                 onChange={(value) => onInputChange({ bodyFat: value })}
               />
             </div>
@@ -275,10 +275,11 @@ export const UserInputForm = ({ userData, onInputChange, onCalculate }: UserInpu
                   <select
                     id="targetBodyFat"
                     value={userData.targetBodyFat}
-                    onChange={(e) => onInputChange({ targetBodyFat: parseInt(e.target.value) })}
+                    onChange={(e) => onInputChange({ targetBodyFat: e.target.value ? parseInt(e.target.value) : undefined })}
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-4 
                       focus:outline-none focus:border-blue-500 focus:ring-blue-200 appearance-none"
                   >
+                    <option value="">I don't know</option>
                     {[5, 8, 10, 12, 15, 18, 20, 22, 25].map((value) => (
                       <option key={value} value={value}>{value}%</option>
                     ))}
