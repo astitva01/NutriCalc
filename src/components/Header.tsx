@@ -1,10 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Activity } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+import { AuthModal } from './AuthModal.tsx';
 
 export const Header = () => {
+  const [scrolled, setScrolled] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 0);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const authParam = searchParams.get('auth');
+    if (authParam === 'signup') {
+      openAuthModal('signup');
+      searchParams.delete('auth');
+      setSearchParams(searchParams, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
+
+  const openAuthModal = (mode: 'login' | 'signup') => {
+    setAuthMode(mode);
+    setAuthModalOpen(true);
+  };
+
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-blue-50 to-indigo-50 shadow-lg border-b border-blue-100">
+    <header className={`sticky top-0 z-50 transition-all duration-300 ${
+      scrolled 
+        ? 'bg-white/95 backdrop-blur-sm shadow-md border-b border-blue-100' 
+        : 'bg-gradient-to-r from-blue-50 to-indigo-50 shadow-lg border-b border-blue-100'
+    }`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           <Link to="/" className="flex items-center space-x-3">
@@ -54,50 +86,34 @@ export const Header = () => {
                   </span>
                 </a>
               </li>
-              <li>
-                <Link 
-                  to="/login"
+              <li className="flex space-x-4">
+                <button
+                  onClick={() => openAuthModal('login')}
                   className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 
                     transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 
                     flex items-center space-x-2"
                 >
                   <span>Login</span>
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    className="h-4 w-4" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="2"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  to="/signup"
+                </button>
+                <button
+                  onClick={() => openAuthModal('signup')}
                   className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 
                     transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 
                     flex items-center space-x-2"
                 >
                   <span>Sign Up</span>
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    className="h-4 w-4" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="2"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
+                </button>
               </li>
             </ul>
           </nav>
         </div>
       </div>
+
+      <AuthModal 
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialMode={authMode}
+      />
     </header>
   );
 };

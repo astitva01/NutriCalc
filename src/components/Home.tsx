@@ -98,7 +98,7 @@ export const Home = () => {
           <h2 className="text-3xl font-bold mb-4">Start Your Transformation Today</h2>
           <p className="mb-8 text-blue-100">Join thousands of users achieving their fitness goals</p>
           <Link 
-            to="/calculator"
+            to="/?auth=signup"
             className="inline-block px-8 py-4 bg-white text-blue-600 rounded-xl 
               shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] text-lg font-semibold"
           >
